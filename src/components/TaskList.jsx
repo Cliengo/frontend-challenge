@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import TaskItem from './TaskItem';
 
-function TaskList() {
+export default function TaskList () {
   const [tasks, setTasks] = useState([]);
 
   useEffect(() => {
@@ -33,4 +33,3 @@ function TaskList() {
   );
 }
 
-export default TaskList;
