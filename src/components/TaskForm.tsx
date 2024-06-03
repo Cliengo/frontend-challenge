@@ -9,9 +9,13 @@ function TaskForm() {
 
   useEffect(() => {
     if (id !== 'new') {
-      axios.get(`https://jsonplaceholder.typicode.com/todos/${id}`)
-        .then(response => {
-          setTask({ title: response.data.title, description: response.data.title });
+      axios
+        .get(`https://jsonplaceholder.typicode.com/todos/${id}`)
+        .then((response) => {
+          setTask({
+            title: response.data.title,
+            description: response.data.title,
+          });
         });
     }
   }, [id]);
@@ -19,12 +23,14 @@ function TaskForm() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (id === 'new') {
-      axios.post('https://jsonplaceholder.typicode.com/todos', task)
+      axios
+        .post('https://jsonplaceholder.typicode.com/todos', task)
         .then(() => {
           navigate('/');
         });
     } else {
-      axios.put(`https://jsonplaceholder.typicode.com/todos/${id}`, task)
+      axios
+        .put(`https://jsonplaceholder.typicode.com/todos/${id}`, task)
         .then(() => {
           navigate('/');
         });
@@ -36,22 +42,26 @@ function TaskForm() {
       <h1>{id === 'new' ? 'Add New Task' : 'Edit Task'}</h1>
       <form onSubmit={handleSubmit}>
         <div>
-          <label>Title</label>
+          <label htmlFor="title">Title</label>
           <input
+            id="title"
             type="text"
             value={task.title}
             onChange={(e) => setTask({ ...task, title: e.target.value })}
           />
         </div>
         <div>
-          <label>Description</label>
+          <label htmlFor="description">Description</label>
           <input
+            id="description"
             type="text"
             value={task.description}
             onChange={(e) => setTask({ ...task, description: e.target.value })}
           />
         </div>
-        <button type="submit">{id === 'new' ? 'Add Task' : 'Update Task'}</button>
+        <button type="submit">
+          {id === 'new' ? 'Add Task' : 'Update Task'}
+        </button>
       </form>
     </div>
   );
