@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import TaskItem from './TaskItem';
@@ -13,7 +13,7 @@ export default function TaskList () {
       });
   }, []);
 
-  const deleteTask = (id) => {
+  const deleteTask = (id: string) => {
     axios.delete(`https://jsonplaceholder.typicode.com/todos/${id}`)
       .then(() => {
         setTasks(tasks.filter(task => task.id !== id));
