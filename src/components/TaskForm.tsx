@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useHistory, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 function TaskForm() {
   const { id } = useParams();
   const [task, setTask] = useState({ title: '', description: '' });
-  const history = useHistory();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (id !== 'new') {
@@ -16,17 +16,17 @@ function TaskForm() {
     }
   }, [id]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (id === 'new') {
       axios.post('https://jsonplaceholder.typicode.com/todos', task)
         .then(() => {
-          history.push('/');
+          navigate('/');
         });
     } else {
       axios.put(`https://jsonplaceholder.typicode.com/todos/${id}`, task)
         .then(() => {
-          history.push('/');
+          navigate('/');
         });
     }
   };

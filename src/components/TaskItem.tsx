@@ -1,7 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Todo } from '../types/todo';
 
-function TaskItem({ task, deleteTask }) {
+type Props = {
+  task: Todo,
+  deleteTask: (id: string) => void
+}
+
+function TaskItem({ task, deleteTask }: Props) {
   return (
     <li>
       <span>{task.title}</span>
