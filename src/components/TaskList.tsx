@@ -1,25 +1,25 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 import TaskItem from './TaskItem';
 import { Todo } from '../types/todo';
 import { Box, Button, Container, Stack } from '@mui/material';
+import { getTasks, deleteTask } from '../services/tasks';
 
 export default function TaskList() {
   const [tasks, setTasks] = useState<Todo[]>([]);
 
   useEffect(() => {
-    axios.get('https://jsonplaceholder.typicode.com/todos').then((response) => {
-      setTasks(response.data.slice(0, 10)); // Limitar a 10 tareas para la demostración
-    });
+    const fetchData = async () => {
+      const { data: tasks } = await getTasks();
+      setTasks(tasks.slice(0, 10));
+    };
+    fetchData();
   }, []);
 
-  const deleteTask = (id: string) => {
-    axios
-      .delete(`https://jsonplaceholder.typicode.com/todos/${id}`)
-      .then(() => {
-        setTasks(tasks.filter((task) => task.id !== id));
-      });
+  const handleDeleteTask = async (id: string) => {
+    if (!id) throw new Error('Delete task must be called with an id');
+    await deleteTask(id);
+    setTasks(tasks.filter((task) => task.id !== id));
   };
 
   return (
@@ -40,7 +40,7 @@ export default function TaskList() {
         gap={2}
       >
         {tasks.map((task) => (
-          <TaskItem key={task.id} task={task} deleteTask={deleteTask} />
+          <TaskItem key={task.id} task={task} deleteTask={handleDeleteTask} />
         ))}
       </Stack>
     </Container>

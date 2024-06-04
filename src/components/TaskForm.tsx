@@ -1,5 +1,4 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
   Button,
@@ -8,42 +7,34 @@ import {
   Stack,
   TextField,
 } from '@mui/material';
+import { editTask, getTask, postTask } from '../services/tasks';
+import { Todo } from '../types/todo';
 
 function TaskForm() {
   const { id } = useParams();
-  const [task, setTask] = useState({ title: '', description: '' });
+  const [task, setTask] = useState<Todo>({ title: '', description: '' });
   const navigate = useNavigate();
 
   useEffect(() => {
     if (id !== 'new') {
-      axios
-        .get(`https://jsonplaceholder.typicode.com/todos/${id}`)
-        .then((response) => {
-          setTask({
-            title: response.data.title,
-            description: response.data.title,
-          });
-        });
+      const fetchData = async () => {
+        const data = await getTask(String(id));
+        setTask({ title: data.title, description: data.title });
+      };
+      fetchData();
     }
   }, [id]);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (id === 'new') {
-      axios
-        .post('https://jsonplaceholder.typicode.com/todos', task)
-        .then(() => {
-          navigate('/');
-        });
+      await postTask(task);
+      navigate('/');
     } else {
-      axios
-        .put(`https://jsonplaceholder.typicode.com/todos/${id}`, task)
-        .then(() => {
-          navigate('/');
-        });
+      await editTask(String(id), task);
+      navigate('/');
     }
   };
-
   return (
     <Container maxWidth="sm" className="pt-5 mb-5">
       <Stack
@@ -62,6 +53,7 @@ function TaskForm() {
                 id="title"
                 label="Title"
                 variant="outlined"
+                name="Title"
                 value={task.title}
                 className="bg-white"
                 onChange={(e) => setTask({ ...task, title: e.target.value })}
@@ -72,6 +64,7 @@ function TaskForm() {
               id="description"
               label="Description"
               variant="outlined"
+              name="Description"
               value={task.description}
               className="bg-white"
               onChange={(e) =>

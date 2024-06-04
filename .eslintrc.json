@@ -33,6 +33,13 @@
   },
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
+    "requireConfigFile": false,
+    "babelOptions": {
+      "presets": [
+        "@babel/preset-env",
+        "@babel/preset-react"
+      ]
+    },
     "ecmaFeatures": {
       "jsx": true
     },
@@ -53,6 +60,8 @@
         "endOfLine": "auto"
       }
     ],
-    "react/react-in-jsx-scope": "off"
+    "no-undef": "off",
+    "react/react-in-jsx-scope": "off",
+    "@typescript-eslint/no-var-requires": "off"
   }
 }
