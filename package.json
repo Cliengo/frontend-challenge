@@ -17,11 +17,8 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "vite",
-    "build": "tsc && vite build",
-    "serve": "vite preview",
-    "webpack-serve": "webpack serve --mode development",
-    "webpack-build": "webpack --mode production",
+    "serve": "webpack serve --mode development",
+    "build": "webpack --mode production",
     "lint": "eslint . --ext .ts,.tsx",
     "test": "jest --watchAll"
   },
