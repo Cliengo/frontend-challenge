@@ -19,7 +19,9 @@ function TaskItem({ task, deleteTask }: Props) {
       gap={2}
       className="border p-2 rounded-md bg-white"
     >
-      <div className="font-montserrat flex-1 text-left">{title}</div>
+      <div className="font-montserrat flex-1 text-left" data-testid="task">
+        {title}
+      </div>
       <Stack direction="row" spacing={1}>
         <Button variant="contained">
           <Link className="text-md" to={`/edit/${id}`}>
