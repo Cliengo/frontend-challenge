@@ -30,8 +30,12 @@ describe('TaskItem Component', () => {
       name: /Delete task 1/i,
     });
 
+    const task = await screen.findByTestId('task');
+    expect(task).toBeInTheDocument();
+
     fireEvent.click(button);
 
     expect(mockedDeleteTask).toHaveBeenCalledTimes(1);
+    expect(mockedDeleteTask).toHaveBeenCalledWith('1');
   });
 });
